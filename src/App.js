@@ -1,0 +1,23 @@
+import React, { Component } from 'react';
+import logo from './logo.svg';
+import './App.css';
+import Timer from './Timer.js';
+import Scoreboard from './Scoreboard.js';
+import Game from './Game.js';
+import {Link} from 'react-router';
+
+
+class App extends Component {
+  render() {
+    return (
+      <div className="container">
+        <h1>Fruit Finder</h1>
+       {this.props.children}
+        
+        <Link to="/Game"> Play the Game</Link>
+      </div>
+    );
+  }
+}
+
+export default App;
