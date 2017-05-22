@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import Timer from './Timer.js';
-import Scoreboard from './Scoreboard.js';
-import Game from './Game.js';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
 
 class App extends Component {
@@ -12,9 +8,9 @@ class App extends Component {
     return (
       <div className="container">
         <h1>Fruit Finder</h1>
-       {this.props.children}
-        
-        <Link to="/Game"> Play the Game</Link>
+        <Link to='/game'> <button>Play the Game</button></Link>
+        <Link to='/'> <button>See High Scores</button></Link>
+        {this.props.children}
       </div>
     );
   }

@@ -1,8 +1,4 @@
 import React, { Component } from 'react';
-import Timer from './Timer.js';
-import App from './App.js';
-import ReactDOM from 'react-dom';
-import { Link } from 'react-router';
 import './Cards.css';
 
 const cards = [
@@ -36,12 +32,19 @@ class Cards extends Component {
         this.state = {
             clicks: 0,
             elem1: "",
-            matches: 0
+            matches: 0,
+            seconds: 0,
+            minutes: 0,
+            hours: 0,
+            t: 0
         }
         this.Click = this.Click.bind(this);
         this.CheckMatch = this.CheckMatch.bind(this);
         this.ShowMatch = this.ShowMatch.bind(this);
         this.FirstClick = this.FirstClick.bind(this);
+        this.StartTimer = this.StartTimer.bind(this);
+        this.CountTime = this.CountTime.bind(this);
+        this.GameShouldEnd = this.GameShouldEnd.bind(this);
     }
 
 
@@ -57,41 +60,87 @@ class Cards extends Component {
 
 
     Click(elem) {
-        if (this.state.clicks === 1) {
+        if (this.state.clicks <= 1) {
             this.setState({
                 elem1: elem,
-                clicks: this.state.clicks + 1
+                clicks: 2
             });
+            console.log(this.state.clicks)
         } else if (this.state.clicks === 2) {
             this.CheckMatch(elem);
             this.setState({
                 clicks: 1
             });
+         console.log(this.state.clicks)   
         }
     }
 
     FirstClick(elem) {
-        if(this.state.clicks === 0){
-            this.setState({
-                clicks: 1
-            });
-            console.log(this.props);
-            this.props.StartTimer;
-            
+        if (this.state.clicks === 0) {
+            this.StartTimer();
             this.Click(elem);
-            // console.log(this.state.clicks)
         } else {
             this.Click(elem);
         }
     }
 
     ShowMatch(elem) {
-        cards.splice(elem.id, 1, { img: '../images/vegcheckmark.jpg' });
-        cards.splice(this.state.elem1.id, 1, { img: '../images/vegcheckmark.jpg' });
+        cards.splice(elem.id, 1, { img: '../images/checkmark.jpg' });
+        cards.splice(this.state.elem1.id, 1, { img: '../images/checkmark.jpg' });
         this.setState({
             matches: this.state.matches + 1
+        });
+        this.GameShouldEnd();
+    }
+
+    GameShouldEnd(){
+        if(this.state.matches === 9){
+            this.StopTimer();
+            alert("You finished the game!");
+        }
+    }
+
+    //Timer Functions Below
+    CountTime() {
+        this.setState({
+            seconds: this.state.seconds + 1
+        });
+
+        if (this.state.seconds >= 60) {
+            this.setState({
+                seconds: 0,
+                minutes: this.state.minutes + 1
+            });
+            if (this.state.minutes >= 60) {
+                this.setState({
+                    minutes: 0,
+                    hours: this.state.hours + 1
+                });
+            }
+        }
+        this.StartTimer();
+    }
+
+    StartTimer() {
+        this.setState({
+            t: setTimeout(() => { this.CountTime() }, 1000)
         })
     }
+
+    StopTimer() {
+        clearTimeout(this.state.t);
+    }
+
+    ClearTimer() {
+        clearTimeout(this.state.t);
+        this.setState({
+            seconds: 0,
+            minutes: 0,
+            hours: 0,
+            t: 0
+        })
+    }
+    //Timer Functions Above
 
     render() {
         let cardsJSX = cards.map((elem, i) => {
@@ -99,18 +148,30 @@ class Cards extends Component {
                 <div className="col s3" key={i}>
                     <div className="card">
                         <div className="card-image">
-                            <img onClick={() => {
-                                this.FirstClick(elem);
-
-                            }} src={elem.img} className="cardDisplay" />
+                            <img onClick={() => {this.FirstClick(elem);}} 
+                            src="../images/bowloffruit.png" 
+                            className="cardBackStart" 
+                            alt="backofcard"/>
+                            <img src={elem.img} 
+                            className="cardDisplay" 
+                            alt="fruitcard" />
                         </div>
                     </div>
                 </div>
+
             )
         })
         return (
-            <div className="row">
-                {cardsJSX}
+            <div className="container">
+                <div>
+                    <button onClick={() => { this.StartTimer() }}>START</button>
+                    <button onClick={() => { this.StopTimer() }}>STOP</button>
+                    <button onClick={() => { this.ClearTimer() }}>CLEAR</button>
+                    <h1> {(this.state.hours ? (this.state.hours > 9 ? this.state.hours : "0" + this.state.hours) : "00") + ":" + (this.state.minutes ? (this.state.minutes > 9 ? this.state.minutes : "0" + this.state.minutes) : "00") + ":" + (this.state.seconds > 9 ? this.state.seconds : "0" + this.state.seconds)}</h1>
+                </div>
+                <div className="row">
+                    {cardsJSX}
+                </div>
             </div>
         )
     }

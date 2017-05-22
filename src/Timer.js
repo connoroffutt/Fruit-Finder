@@ -11,7 +11,7 @@ class Timer extends Component {
             seconds: 0,
             minutes: 0,
             hours: 0,
-            t: 0,
+            t: 0
         }
 
         this.StartTimer = this.StartTimer.bind(this);
@@ -72,8 +72,6 @@ class Timer extends Component {
                     <button onClick={()=>{this.StopTimer()}}>STOP</button>
                     <button onClick={()=>{this.ClearTimer()}}>CLEAR</button>
                      <h1> {(this.state.hours ? (this.state.hours > 9 ? this.state.hours : "0" + this.state.hours) : "00") + ":" + (this.state.minutes ? (this.state.minutes > 9 ? this.state.minutes : "0" + this.state.minutes) : "00") + ":" + (this.state.seconds > 9 ? this.state.seconds : "0" + this.state.seconds)}</h1>
-
-                    <Cards StartTimer={this.StartTimer} />
                 </div>
                 
             )
