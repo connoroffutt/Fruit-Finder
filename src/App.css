@@ -1,28 +1,60 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 button:active {
   box-sizing: border-box;
+}
+
+div.rules {
+  height: 350px;
+  width: 400px;
+  margin: auto;
+}
+
+.cardReveal {
+  display: block;
+  transform: translateY(-170%);
+  z-index: 3;
+  transition: .3s ease;
+}
+
+.cardHide {
+  display: none;
+  transform: translateY(0px);
+  transition: .3s ease;
+  z-index: -1;
+}
+
+.imgReveal {
+  display: block;
+  transform: translateY(0px);
+  z-index: 3;
+  transition: .3s ease;
+}
+
+.imgHide {
+  display: none;
+  transform: translateY(-100%);
+  transition: .3s ease;
+  z-index: -1;
+}
+
+.titleReveal {
+  display: block;
+  transform: translateY(0px);
+  z-index: 3;
+  transition: .3s ease;
+}
+
+.titleHide {
+  display: none;
+  transform: translateY(-350px);
+  transition: .3s ease;
+  z-index: -1;
+}
+
+img {
+  position: relative;
+  z-index: -1;
+}
+
+.card ul{
+  padding: -2% 5%;
 }

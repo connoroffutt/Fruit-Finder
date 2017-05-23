@@ -3,28 +3,29 @@ import './Cards.css';
 import { Link } from 'react-router';
 
 const cards = [
-    { img: '../images/apple.gif', id: 0, flipped: 0},
-    { img: '../images/banana.gif', id: 1, flipped: 0},
-    { img: '../images/cherries.gif', id: 2, flipped: 0},
-    { img: '../images/dragonfruit.png', id: 3, flipped: 0},
-    { img: '../images/grapes.png', id: 4, flipped: 0},
-    { img: '../images/lemon.png', id: 5, flipped: 0},
-    { img: '../images/lime.gif', id: 6, flipped: 0},
-    { img: '../images/orange.jpg', id: 7, flipped: 0},
-    { img: '../images/strawberry.png', id: 8, flipped: 0},
-    { img: '../images/watermelon.png', id: 9, flipped: 0},
-    { img: '../images/apple.gif', id: 10, flipped: 0},
-    { img: '../images/banana.gif', id: 11, flipped: 0},
-    { img: '../images/cherries.gif', id: 12, flipped: 0},
-    { img: '../images/dragonfruit.png', id: 13, flipped: 0},
-    { img: '../images/grapes.png', id: 14, flipped: 0},
-    { img: '../images/lemon.png', id: 15, flipped: 0},
-    { img: '../images/lime.gif', id: 16, flipped: 0},
-    { img: '../images/orange.jpg', id: 17, flipped: 0},
-    { img: '../images/strawberry.png', id: 18, flipped: 0},
-    { img: '../images/watermelon.png', id: 19, flipped: 0}
+    { img: '../images/apple.gif', img2: "../images/bowloffruit.png",  id: 0, flipped: 0 },
+    { img: '../images/banana.gif', img2: "../images/bowloffruit.png", id: 1, flipped: 0 },
+    { img: '../images/cherries.gif', img2: "../images/bowloffruit.png", id: 2, flipped: 0 },
+    { img: '../images/dragonfruit.png', img2: "../images/bowloffruit.png", id: 3, flipped: 0 },
+    { img: '../images/grapes.png', img2: "../images/bowloffruit.png", id: 4, flipped: 0 },
+    { img: '../images/lemon.png', img2: "../images/bowloffruit.png", id: 5, flipped: 0 },
+    { img: '../images/lime.gif', img2: "../images/bowloffruit.png", id: 6, flipped: 0 },
+    { img: '../images/orange.jpg', img2: "../images/bowloffruit.png", id: 7, flipped: 0 },
+    { img: '../images/strawberry.png', img2: "../images/bowloffruit.png", id: 8, flipped: 0 },
+    { img: '../images/watermelon.png', img2: "../images/bowloffruit.png", id: 9, flipped: 0 },
+    { img: '../images/apple.gif', img2: "../images/bowloffruit.png", id: 10, flipped: 0 },
+    { img: '../images/banana.gif', img2: "../images/bowloffruit.png", id: 11, flipped: 0 },
+    { img: '../images/cherries.gif', img2: "../images/bowloffruit.png", id: 12, flipped: 0 },
+    { img: '../images/dragonfruit.png', img2: "../images/bowloffruit.png", id: 13, flipped: 0 },
+    { img: '../images/grapes.png', img2: "../images/bowloffruit.png", id: 14, flipped: 0 },
+    { img: '../images/lemon.png', img2: "../images/bowloffruit.png", id: 15, flipped: 0 },
+    { img: '../images/lime.gif', img2: "../images/bowloffruit.png", id: 16, flipped: 0 },
+    { img: '../images/orange.jpg', img2: "../images/bowloffruit.png", id: 17, flipped: 0 },
+    { img: '../images/strawberry.png', img2: "../images/bowloffruit.png", id: 18, flipped: 0 },
+    { img: '../images/watermelon.png', img2: "../images/bowloffruit.png", id: 19, flipped: 0 }
 ]
 
+let cardsTwo;
 
 class Cards extends Component {
 
@@ -38,7 +39,8 @@ class Cards extends Component {
             seconds: 0,
             minutes: 0,
             hours: 0,
-            t: 0
+            t: 0,
+            el1index: 0
         }
         this.Click = this.Click.bind(this);
         this.CheckMatch = this.CheckMatch.bind(this);
@@ -49,74 +51,80 @@ class Cards extends Component {
         this.GameShouldEnd = this.GameShouldEnd.bind(this);
         this.FlipCard = this.FlipCard.bind(this);
         this.FlipBack = this.FlipBack.bind(this);
+
     }
 
-    CheckMatch(elem) {
+    componentWillMount(){
+         cardsTwo = cards.sort(function(a, b){return 0.5 - Math.random()});
+    }
+
+    CheckMatch(elem,i) {
         if (this.state.elem1.img === elem.img) {
             console.log('Match found!');
-            this.ShowMatch(elem);
+            this.ShowMatch(elem,i);
         } else if (this.state.elem1.img !== elem.img) {
-            this.FlipBack(elem);
+            this.FlipBack(elem,i);
         };
     }
 
-    Click(elem) {
+    Click(elem,i) {
         if (this.state.clicks <= 1) {
             this.setState({
                 elem1: elem,
-                clicks: 2
+                clicks: 2,
+                el1index: i
             });
 
-            this.FlipCard(elem);
+            this.FlipCard(elem,i);
             console.log(this.state.clicks)
         } else if (this.state.clicks === 2) {
-            this.FlipCard(elem);
-            this.CheckMatch(elem);
+            this.FlipCard(elem,i);
+            this.CheckMatch(elem,i);
             this.setState({
                 clicks: 1
             });
 
-         console.log(this.state.clicks)
-         console.log(elem)   
+            console.log(this.state.clicks)
+            console.log(elem)
         }
     }
 
-    FlipBack(elem) {
-        setTimeout(()=>{cards.splice(elem.id, 1, {img: elem.img, id: elem.id, flipped: 0 })} ,150)
-        setTimeout(()=>{cards.splice(this.state.elem1.id, 1, {img: this.state.elem1.img, id: this.state.elem1.id, flipped: 0 })} ,150)
+    FlipBack(elem,i) {
+        setTimeout(() => { cardsTwo.splice(i, 1, { img: elem.img, id: elem.id, flipped: 0 }) }, 150)
+        setTimeout(() => { cardsTwo.splice(this.state.el1index, 1, { img: this.state.elem1.img, id: this.state.elem1.id, flipped: 0 }) }, 150)
     }
 
-    FlipCard(elem) {
+    FlipCard(elem,i) {
 
-        cards.splice(elem.id, 1, {img: elem.img, id: elem.id, flipped: 1 })
-
-          // 
+        cardsTwo.splice(i, 1, { img: elem.img, id: elem.id, flipped: 1 })
     }
 
 
-    FirstClick(elem) {
+    FirstClick(elem,i) {
         if (this.state.clicks === 0) {
             this.StartTimer();
-            this.Click(elem);
+            this.Click(elem,i);
         } else {
-            this.Click(elem);
+            this.Click(elem,i);
         }
     }
 
-    
-    ShowMatch(elem) {
-        cards.splice(elem.id, 1, { img: '../images/checkmark.jpg' });
-        cards.splice(this.state.elem1.id, 1, { img: '../images/checkmark.jpg' });
+
+    ShowMatch(elem,i) {
+        setTimeout(() => { cardsTwo.splice(i, 1, { img: '../images/checkmark.jpg' }) }, 100);
+        setTimeout(() => { cardsTwo.splice(this.state.el1index, 1, { img: '../images/checkmark.jpg' }) }, 100);
         this.setState({
             matches: this.state.matches + 1
         });
-        this.GameShouldEnd();
+        this.GameShouldEnd(elem,i);
     }
 
-    GameShouldEnd() {
+    GameShouldEnd(elem,i) {
         if (this.state.matches === 9) {
             this.StopTimer();
-            alert("You finished the game!");
+            cardsTwo.splice(i, 1, { img: '../images/checkmark.jpg' });
+            cardsTwo.splice(this.state.el1index, 1, { img: '../images/checkmark.jpg' });
+            setTimeout(() => { alert("You finished the game!") }, 800);
         }
     }
 
@@ -163,20 +171,20 @@ class Cards extends Component {
     //Timer Functions Above
 
     render() {
-        let cardsJSX = cards.map((elem, i) => {
+        let cardsJSX = cardsTwo.map((elem, i) => {
             return (
                 <div className="col s3" key={i}>
                     <div className="card">
-                        <div className="card-image">
+                        <div className="card-image fruits">
 
                             <div id={i}>
-                                <img onClick={() => {this.FirstClick(elem)}}
-                                src="../images/bowloffruit.png" 
-                                className={elem.flipped === 0 ? "cardBackStart" : "cardBackFlipped"}
-                                alt="backofcard"/>
-                                <img src={elem.img} 
-                                className={elem.flipped === 0 ? "cardDisplay" : "cardDisplayShowing"}
-                                alt="fruitcard" />
+                                <img onClick={() => { this.FirstClick(elem, i) }}
+                                    src="../images/bowloffruit.png"
+                                    className={elem.flipped === 0 ? "cardBackStart" : "cardBackFlipped"}
+                                    alt="backofcard" />
+                                <img src={elem.img}
+                                    className={elem.flipped === 0 ? "cardDisplay" : "cardDisplayShowing"}
+                                    alt="fruitcard" />
                             </div>
 
                         </div>
@@ -187,18 +195,14 @@ class Cards extends Component {
         })
         return (
             <div>
-                <Link to='/'> <button>See Fastest Times</button></Link>
-                <div>
-                    
-                    <h3>How To Play</h3>
-                    <ol>
-                        <li>Click any 2 cards to reveal the image beneath. Timer will start on first click.</li>
-                        <li>The goal is to find all the matching pairs. If the 2 cards you click do not match, they will reset.</li>
-                        <li>If the 2 cards do match, the images will change to reflect that. Timer will stop after the final match has been made.</li>
-                    </ol>
-
-                    <h1> Timer <br /> {(this.state.hours ? (this.state.hours > 9 ? this.state.hours : "0" + this.state.hours) : "00") + ":" + (this.state.minutes ? (this.state.minutes > 9 ? this.state.minutes : "0" + this.state.minutes) : "00") + ":" + (this.state.seconds > 9 ? this.state.seconds : "0" + this.state.seconds)}</h1>
-                </div>
+                <table>
+                    <tr>
+                        <td><Link to='/'> <button>See Fastest Times</button></Link></td>
+                        <td className="rightalign">
+                            <h1 className="timerStyle"> Timer <br /> {(this.state.hours ? (this.state.hours > 9 ? this.state.hours : "0" + this.state.hours) : "00") + ":" + (this.state.minutes ? (this.state.minutes > 9 ? this.state.minutes : "0" + this.state.minutes) : "00") + ":" + (this.state.seconds > 9 ? this.state.seconds : "0" + this.state.seconds)}</h1>
+                        </td>
+                    </tr>
+                </table>
                 <div className="row">
                     {cardsJSX}
                 </div>
