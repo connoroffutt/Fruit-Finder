@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './cards.css';
+import './Cards.css';
 
 const cards = [
     { img: '../images/apple.gif', id: 0, flipped: 0},
@@ -80,8 +80,8 @@ class Cards extends Component {
     }
 
     FlipBack(elem) {
-        setTimeout(()=>{cards.splice(elem.id, 1, {img: elem.img, id: elem.id, flipped: 0 })} ,1000)
-        setTimeout(()=>{cards.splice(this.state.elem1.id, 1, {img: this.state.elem1.img, id: this.state.elem1.id, flipped: 0 })} ,1000)
+        setTimeout(()=>{cards.splice(elem.id, 1, {img: elem.img, id: elem.id, flipped: 0 })} ,150)
+        setTimeout(()=>{cards.splice(this.state.elem1.id, 1, {img: this.state.elem1.img, id: this.state.elem1.id, flipped: 0 })} ,150)
     }
 
     FlipCard(elem) {

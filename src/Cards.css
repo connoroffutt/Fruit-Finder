@@ -7,7 +7,7 @@ div.card-image .cardDisplay {
 
 div.card-image .cardDisplayShowing {
     position: relative;
-    width: 125px;
+    width: 150px;
     height: 150px;
     z-index: 2;
 }
