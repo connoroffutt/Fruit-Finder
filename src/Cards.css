@@ -1,20 +1,33 @@
-.cardDisplay {
+
+div.card-image .cardDisplay {
     position: relative;
     width: 125px;
     height:150px;
+    z-index: -2;
+}
+
+div.card-image .cardDisplayShowing {
+    position: relative;
+    width: 125px;
+    height: 150px;
     z-index: 2;
 }
 
-.cardBackStart {
-    position: relative;
-    width: 125px;
-    height:150px;
-    z-index: 3;
-}
-
-.cardBackFlipped {
+div.card-image .cardBackStart {
     position: absolute;
     width: 125px;
     height:150px;
     z-index: 1;
+}
+
+div.card-image .cardBackFlipped {
+    position: absolute;
+    width: 125px;
+    height:150px;
+    z-index: -1;
+}
+
+div.card-image .card {
+    height: 150px;
+    width: 125px;
 }
