@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Cards.css';
+import { Link } from 'react-router';
 
 const cards = [
     { img: '../images/apple.gif', id: 0, flipped: 0},
@@ -59,13 +60,13 @@ class Cards extends Component {
         };
     }
 
-
     Click(elem) {
         if (this.state.clicks <= 1) {
             this.setState({
                 elem1: elem,
                 clicks: 2
             });
+
             this.FlipCard(elem);
             console.log(this.state.clicks)
         } else if (this.state.clicks === 2) {
@@ -74,6 +75,7 @@ class Cards extends Component {
             this.setState({
                 clicks: 1
             });
+
          console.log(this.state.clicks)
          console.log(elem)   
         }
@@ -111,8 +113,8 @@ class Cards extends Component {
         this.GameShouldEnd();
     }
 
-    GameShouldEnd(){
-        if(this.state.matches === 9){
+    GameShouldEnd() {
+        if (this.state.matches === 9) {
             this.StopTimer();
             alert("You finished the game!");
         }
@@ -166,6 +168,7 @@ class Cards extends Component {
                 <div className="col s3" key={i}>
                     <div className="card">
                         <div className="card-image">
+
                             <div id={i}>
                                 <img onClick={() => {this.FirstClick(elem)}}
                                 src="../images/bowloffruit.png" 
@@ -175,6 +178,7 @@ class Cards extends Component {
                                 className={elem.flipped === 0 ? "cardDisplay" : "cardDisplayShowing"}
                                 alt="fruitcard" />
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -182,12 +186,18 @@ class Cards extends Component {
             )
         })
         return (
-            <div className="container">
+            <div>
+                <Link to='/'> <button>See Fastest Times</button></Link>
                 <div>
-                    <button onClick={() => { this.StartTimer() }}>START</button>
-                    <button onClick={() => { this.StopTimer() }}>STOP</button>
-                    <button onClick={() => { this.ClearTimer() }}>CLEAR</button>
-                    <h1> {(this.state.hours ? (this.state.hours > 9 ? this.state.hours : "0" + this.state.hours) : "00") + ":" + (this.state.minutes ? (this.state.minutes > 9 ? this.state.minutes : "0" + this.state.minutes) : "00") + ":" + (this.state.seconds > 9 ? this.state.seconds : "0" + this.state.seconds)}</h1>
+                    
+                    <h3>How To Play</h3>
+                    <ol>
+                        <li>Click any 2 cards to reveal the image beneath. Timer will start on first click.</li>
+                        <li>The goal is to find all the matching pairs. If the 2 cards you click do not match, they will reset.</li>
+                        <li>If the 2 cards do match, the images will change to reflect that. Timer will stop after the final match has been made.</li>
+                    </ol>
+
+                    <h1> Timer <br /> {(this.state.hours ? (this.state.hours > 9 ? this.state.hours : "0" + this.state.hours) : "00") + ":" + (this.state.minutes ? (this.state.minutes > 9 ? this.state.minutes : "0" + this.state.minutes) : "00") + ":" + (this.state.seconds > 9 ? this.state.seconds : "0" + this.state.seconds)}</h1>
                 </div>
                 <div className="row">
                     {cardsJSX}
