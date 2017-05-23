@@ -1,27 +1,27 @@
 import React, { Component } from 'react';
-import './Cards.css';
+import './cards.css';
 
 const cards = [
-    { img: '../images/apple.gif', id: 0 },
-    { img: '../images/banana.gif', id: 1 },
-    { img: '../images/cherries.gif', id: 2 },
-    { img: '../images/dragonfruit.png', id: 3 },
-    { img: '../images/grapes.png', id: 4 },
-    { img: '../images/lemon.png', id: 5 },
-    { img: '../images/lime.gif', id: 6 },
-    { img: '../images/orange.jpg', id: 7 },
-    { img: '../images/strawberry.png', id: 8 },
-    { img: '../images/watermelon.png', id: 9 },
-    { img: '../images/apple.gif', id: 10 },
-    { img: '../images/banana.gif', id: 11 },
-    { img: '../images/cherries.gif', id: 12 },
-    { img: '../images/dragonfruit.png', id: 13 },
-    { img: '../images/grapes.png', id: 14 },
-    { img: '../images/lemon.png', id: 15 },
-    { img: '../images/lime.gif', id: 16 },
-    { img: '../images/orange.jpg', id: 17 },
-    { img: '../images/strawberry.png', id: 18 },
-    { img: '../images/watermelon.png', id: 19 }
+    { img: '../images/apple.gif', id: 0, flipped: 0},
+    { img: '../images/banana.gif', id: 1, flipped: 0},
+    { img: '../images/cherries.gif', id: 2, flipped: 0},
+    { img: '../images/dragonfruit.png', id: 3, flipped: 0},
+    { img: '../images/grapes.png', id: 4, flipped: 0},
+    { img: '../images/lemon.png', id: 5, flipped: 0},
+    { img: '../images/lime.gif', id: 6, flipped: 0},
+    { img: '../images/orange.jpg', id: 7, flipped: 0},
+    { img: '../images/strawberry.png', id: 8, flipped: 0},
+    { img: '../images/watermelon.png', id: 9, flipped: 0},
+    { img: '../images/apple.gif', id: 10, flipped: 0},
+    { img: '../images/banana.gif', id: 11, flipped: 0},
+    { img: '../images/cherries.gif', id: 12, flipped: 0},
+    { img: '../images/dragonfruit.png', id: 13, flipped: 0},
+    { img: '../images/grapes.png', id: 14, flipped: 0},
+    { img: '../images/lemon.png', id: 15, flipped: 0},
+    { img: '../images/lime.gif', id: 16, flipped: 0},
+    { img: '../images/orange.jpg', id: 17, flipped: 0},
+    { img: '../images/strawberry.png', id: 18, flipped: 0},
+    { img: '../images/watermelon.png', id: 19, flipped: 0}
 ]
 
 
@@ -33,6 +33,7 @@ class Cards extends Component {
             clicks: 0,
             elem1: "",
             matches: 0,
+            flipped: 0,
             seconds: 0,
             minutes: 0,
             hours: 0,
@@ -45,16 +46,16 @@ class Cards extends Component {
         this.StartTimer = this.StartTimer.bind(this);
         this.CountTime = this.CountTime.bind(this);
         this.GameShouldEnd = this.GameShouldEnd.bind(this);
+        this.FlipCard = this.FlipCard.bind(this);
+        this.FlipBack = this.FlipBack.bind(this);
     }
-
 
     CheckMatch(elem) {
         if (this.state.elem1.img === elem.img) {
             console.log('Match found!');
             this.ShowMatch(elem);
-
-        } else {
-            console.log('no match')
+        } else if (this.state.elem1.img !== elem.img) {
+            this.FlipBack(elem);
         };
     }
 
@@ -65,15 +66,31 @@ class Cards extends Component {
                 elem1: elem,
                 clicks: 2
             });
+            this.FlipCard(elem);
             console.log(this.state.clicks)
         } else if (this.state.clicks === 2) {
+            this.FlipCard(elem);
             this.CheckMatch(elem);
             this.setState({
                 clicks: 1
             });
-         console.log(this.state.clicks)   
+         console.log(this.state.clicks)
+         console.log(elem)   
         }
     }
+
+    FlipBack(elem) {
+        setTimeout(()=>{cards.splice(elem.id, 1, {img: elem.img, id: elem.id, flipped: 0 })} ,1000)
+        setTimeout(()=>{cards.splice(this.state.elem1.id, 1, {img: this.state.elem1.img, id: this.state.elem1.id, flipped: 0 })} ,1000)
+    }
+
+    FlipCard(elem) {
+
+        cards.splice(elem.id, 1, {img: elem.img, id: elem.id, flipped: 1 })
+
+          // 
+    }
+
 
     FirstClick(elem) {
         if (this.state.clicks === 0) {
@@ -84,6 +101,7 @@ class Cards extends Component {
         }
     }
 
+    
     ShowMatch(elem) {
         cards.splice(elem.id, 1, { img: '../images/checkmark.jpg' });
         cards.splice(this.state.elem1.id, 1, { img: '../images/checkmark.jpg' });
@@ -148,13 +166,15 @@ class Cards extends Component {
                 <div className="col s3" key={i}>
                     <div className="card">
                         <div className="card-image">
-                            <img onClick={() => {this.FirstClick(elem);}} 
-                            src="../images/bowloffruit.png" 
-                            className="cardBackStart" 
-                            alt="backofcard"/>
-                            <img src={elem.img} 
-                            className="cardDisplay" 
-                            alt="fruitcard" />
+                            <div id={i}>
+                                <img onClick={() => {this.FirstClick(elem)}}
+                                src="../images/bowloffruit.png" 
+                                className={elem.flipped === 0 ? "cardBackStart" : "cardBackFlipped"}
+                                alt="backofcard"/>
+                                <img src={elem.img} 
+                                className={elem.flipped === 0 ? "cardDisplay" : "cardDisplayShowing"}
+                                alt="fruitcard" />
+                            </div>
                         </div>
                     </div>
                 </div>
