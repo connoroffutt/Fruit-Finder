@@ -1,12 +1,12 @@
 .cardDisplay {
-    position: absolute;
+    position: relative;
     width: 125px;
     height:150px;
     z-index: 2;
 }
 
 .cardBackStart {
-    position: absolute;
+    position: relative;
     width: 125px;
     height:150px;
     z-index: 3;
