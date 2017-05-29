@@ -20,11 +20,12 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/javathehut/fruitfinder.git"
+    "url": "git+https://github.com/connoroffutt/Fruit-Finder.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/javathehut/fruitfinder/issues"
+    "url": "https://github.com/connoroffutt/Fruit-Finder/issues"
   },
+  "homepage": "https://github.com/connoroffutt/Fruit-Finder#readme"
 }
